@@ -917,6 +917,12 @@ def historical_tab(data: dict, contracts: dict, selection: str) -> None:
         cols = st.columns(4)
         for index, field in enumerate(VISIBLE_FIELDS):
             cols[index % 4].metric(field, f"{float(canonical_row[field]):,.6f}")
+            cols[index % 4].number_input(
+                field,
+                value=float(canonical_row[field]),
+                disabled=True,
+                key=f"history_{chosen_label}_{field}",
+            )
 
     if st.button("Predict from saved Evaluation evidence", type="primary", key="history_predict"):
         detailed_models = selected_models(selection, MODEL_NAMES)
