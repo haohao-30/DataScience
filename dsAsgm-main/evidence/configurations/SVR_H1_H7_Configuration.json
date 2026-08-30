@@ -1,0 +1,160 @@
+{
+  "model_name": "SVR",
+  "model_class": "sklearn.svm.SVR",
+  "kernel": "rbf",
+  "scaler": "StandardScaler",
+  "predictor_count": 22,
+  "predictors": [
+    "Current_Price",
+    "Current_Open",
+    "Current_High",
+    "Current_Low",
+    "Current_Volume",
+    "Price_Lag1",
+    "Price_Lag2",
+    "Current_CHG",
+    "Return_Lag1",
+    "Return_Lag2",
+    "Return_Lag3",
+    "Return_Lag4",
+    "Return_Lag5",
+    "Return_Lag6",
+    "MA_7",
+    "MA_30",
+    "Volatility_7",
+    "Volatility_30",
+    "Momentum_7",
+    "Momentum_30",
+    "USD_Index_Return_Lag1",
+    "US10Y_Real_Yield_Change_Lag1"
+  ],
+  "horizons": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "target_return_columns": {
+    "1": "Target_Next_Return",
+    "2": "Target_Return_H2",
+    "3": "Target_Return_H3",
+    "4": "Target_Return_H4",
+    "5": "Target_Return_H5",
+    "6": "Target_Return_H6",
+    "7": "Target_Return_H7"
+  },
+  "target_price_columns": {
+    "1": "Target_Next_Price",
+    "2": "Target_Price_H2",
+    "3": "Target_Price_H3",
+    "4": "Target_Price_H4",
+    "5": "Target_Price_H5",
+    "6": "Target_Price_H6",
+    "7": "Target_Price_H7"
+  },
+  "target_date_columns": {
+    "1": "Target_Date",
+    "2": "Target_Date_H2",
+    "3": "Target_Date_H3",
+    "4": "Target_Date_H4",
+    "5": "Target_Date_H5",
+    "6": "Target_Date_H6",
+    "7": "Target_Date_H7"
+  },
+  "best_parameters": {
+    "1": {
+      "model__C": 14.689898077648792,
+      "model__epsilon": 0.007528657637770698,
+      "model__gamma": 1.0431827200054888
+    },
+    "2": {
+      "model__C": 5.414413211338521,
+      "model__epsilon": 4.075774074807649e-05,
+      "model__gamma": 7.045683638454494
+    },
+    "3": {
+      "model__C": 75.10418138777538,
+      "model__epsilon": 0.012627407242820354,
+      "model__gamma": 2.9794544625913595
+    },
+    "4": {
+      "model__C": 75.10418138777538,
+      "model__epsilon": 0.012627407242820354,
+      "model__gamma": 2.9794544625913595
+    },
+    "5": {
+      "model__C": 75.10418138777538,
+      "model__epsilon": 0.012627407242820354,
+      "model__gamma": 2.9794544625913595
+    },
+    "6": {
+      "model__C": 75.10418138777538,
+      "model__epsilon": 0.012627407242820354,
+      "model__gamma": 2.9794544625913595
+    },
+    "7": {
+      "model__C": 75.10418138777538,
+      "model__epsilon": 0.012627407242820354,
+      "model__gamma": 2.9794544625913595
+    }
+  },
+  "canonical_filename": "Gold_Price_Final_ModelData_External_Return_H1_H7.csv",
+  "raw_input_sha256": "edf1072a0f0c5c2de6de6954e1f589e7803c646c3fc57e0b5928eceaaf42606b",
+  "normalized_content_sha256": "afc04ddec2fd5bc51cb9959241e2983792408ada753ae571ecdef788ef6450b7",
+  "split_counts": {
+    "Train": 2452,
+    "Gap": 6,
+    "Evaluation": 609
+  },
+  "first_evaluation_origin_date": "2023-08-11",
+  "time_series_split": "TimeSeriesSplit(n_splits=5, gap=h-1)",
+  "tuning_split": "Train",
+  "tuning_rows": 2452,
+  "gap_used_for_tuning": false,
+  "evaluation_used_for_tuning": false,
+  "candidate_count_per_horizon": 40,
+  "random_seed": 42,
+  "tuning_score": "reconstructed-price RMSE",
+  "walk_forward_availability_rule": "index < current index and Origin_Date < current origin and Target_Date_Hh <= current origin",
+  "walk_forward_type": "609-origin horizon-specific expanding window",
+  "walk_forward_parallelism": "horizon level only; at most two workers",
+  "checkpoint_policy": "one horizon file; atomic replacement every 20 steps; validated before resume",
+  "checkpoint_files_are_temporary_computation_aids": true,
+  "first_step_history_counts": {
+    "H1": 2458,
+    "H2": 2457,
+    "H3": 2456,
+    "H4": 2455,
+    "H5": 2454,
+    "H6": 2453,
+    "H7": 2452
+  },
+  "total_predictions": 4263,
+  "persistence_definition": {
+    "return": 0.0,
+    "price": "Current_Price"
+  },
+  "reconstruction_formula": "Current_Price * (1 + Predicted_Return)",
+  "target_scaled": false,
+  "scaling_policy": "StandardScaler fitted only inside Train-fold or eligible-history Pipelines",
+  "deployment_excluded_from_evaluation": true,
+  "package_versions": {
+    "python": "3.13.15",
+    "pandas": "2.2.3",
+    "numpy": "2.1.3",
+    "scikit_learn": "1.6.1",
+    "joblib": "1.5.3",
+    "matplotlib": "3.10.0",
+    "seaborn": "0.13.2"
+  },
+  "output_filenames": [
+    "SVR_H1_H7_WalkForward_Predictions.csv",
+    "SVR_H1_H7_Metrics.csv",
+    "SVR_H1_H7_TimeSeriesSplit_Results.csv",
+    "SVR_H1_H7_Deployment.joblib",
+    "SVR_H1_H7_Configuration.json"
+  ]
+}

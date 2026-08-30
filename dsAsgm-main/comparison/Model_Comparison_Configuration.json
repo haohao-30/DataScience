@@ -1,0 +1,58 @@
+{
+    "models": [
+        "Ridge",
+        "KNN",
+        "SVR",
+        "XGBoost"
+    ],
+    "best_model": "KNN",
+    "primary_ranking_metric": "Lowest Overall pooled Price_RMSE",
+    "tie_breakers": [
+        "Lowest Overall pooled Price_MAE",
+        "Lowest H1 Price_RMSE",
+        "Alphabetical Model name"
+    ],
+    "canonical_rows": 3067,
+    "predictor_count": 22,
+    "train_rows": 2452,
+    "gap_rows": 6,
+    "evaluation_origins": 609,
+    "horizons": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+    ],
+    "prediction_rows_per_model": 4263,
+    "combined_prediction_rows": 17052,
+    "metric_rows_per_model": 8,
+    "combined_metric_rows": 32,
+    "target": "Direct cumulative return H1-H7",
+    "price_reconstruction": "Current_Price * (1 + Predicted_Return)",
+    "persistence": "Return = 0; Price = Current_Price",
+    "comparison_used_saved_predictions": true,
+    "models_retrained": false,
+    "models_retuned": false,
+    "deployment_joblibs_used": false,
+    "evaluation_alignment_verified": true,
+    "metrics_independently_verified": true,
+    "input_hashes": {
+        "Canonical_CSV": "edf1072a0f0c5c2de6de6954e1f589e7803c646c3fc57e0b5928eceaaf42606b",
+        "Ridge_Predictions": "c2e7140e0875d549680f462de053913d82278aa40f39fbba7f95c63cb431a3c8",
+        "Ridge_Metrics": "ad7f90c320dd885e19ae4ef8adbc0095a11e965f993c5bca035f2fe6b4afaf4d",
+        "Ridge_Configuration": "72c22fe7e482555b705914a7594d94d96ddea59d5705a5186010697e832d51fd",
+        "KNN_Predictions": "e985cf5141abe1d9d144c6f75ac974f5fabea16de9b318cffcfcf76210a03012",
+        "KNN_Metrics": "7fa75c44769cc05f2e0a7479eb5520271ee13b17a8422d4f9299f4f3654d6ed1",
+        "KNN_Configuration": "b9dc15c8db215d7157dfa2d2c3aac2c8e23f2fefa6844be0d30704c5a024d98f",
+        "SVR_Predictions": "3b73f752727831ed016ee0b4113ce8cb0571c760578a672f5e630916093d480e",
+        "SVR_Metrics": "213835c34494ecc63fc8e2b50a3cab986ace7ef08bfe4c7194ba7f7e2031c8f6",
+        "SVR_Configuration": "545ffb599937a3e0687b50357f7e5b70713619208a3c8bda7ff7192099940d4c",
+        "XGBoost_Predictions": "7c0472f6f5a87b45a94ca0e33a0a12ace8b613d30fd66f3feee2e20da2db469c",
+        "XGBoost_Metrics": "0bee439a8d0211f8e876be050d63fea6f7ecb8a3d9eef96350107f09da53c9ef",
+        "XGBoost_Configuration": "b59b55674f47950a405c8921b899a268f074cd121e8529fc6489bc41a7775106"
+    },
+    "created_at": "2026-08-26T22:58:24.866753Z"
+}
