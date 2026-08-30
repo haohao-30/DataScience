@@ -913,18 +913,18 @@ def historical_tab(data: dict, contracts: dict, selection: str) -> None:
     chosen_label = st.selectbox("Evaluation Origin Date (609 common dates only)", date_labels)
     chosen_date = pd.Timestamp(chosen_label)
     canonical_row = data["canonical"].loc[data["canonical"]["Origin_Date"].eq(chosen_date)].iloc[0]
-   with st.expander("Show the selected date market inputs", expanded=False):
-    cols = st.columns(4)
-
-    for index, field in enumerate(VISIBLE_FIELDS):
-        cols[index % 4].number_input(
-            field,
-            value=float(canonical_row[field]),
-            step=1.0,
-            format="%.2f",
-            disabled=True,
-            key=f"history_{chosen_label}_{field}",
-        )
+    with st.expander("Show the selected date market inputs", expanded=False):
+        cols = st.columns(4)
+    
+        for index, field in enumerate(VISIBLE_FIELDS):
+            cols[index % 4].number_input(
+                field,
+                value=float(canonical_row[field]),
+                step=1.0,
+                format="%.2f",
+                disabled=True,
+                key=f"history_{chosen_label}_{field}",
+            )
 
     if st.button("Predict from saved Evaluation evidence", type="primary", key="history_predict"):
         detailed_models = selected_models(selection, MODEL_NAMES)
