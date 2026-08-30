@@ -1,0 +1,178 @@
+{
+  "model_name": "Ridge",
+  "model_class": "sklearn.linear_model.Ridge",
+  "scaler": "StandardScaler",
+  "predictor_count": 22,
+  "predictors": [
+    "Current_Price",
+    "Current_Open",
+    "Current_High",
+    "Current_Low",
+    "Current_Volume",
+    "Price_Lag1",
+    "Price_Lag2",
+    "Current_CHG",
+    "Return_Lag1",
+    "Return_Lag2",
+    "Return_Lag3",
+    "Return_Lag4",
+    "Return_Lag5",
+    "Return_Lag6",
+    "MA_7",
+    "MA_30",
+    "Volatility_7",
+    "Volatility_30",
+    "Momentum_7",
+    "Momentum_30",
+    "USD_Index_Return_Lag1",
+    "US10Y_Real_Yield_Change_Lag1"
+  ],
+  "horizons": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "target_return_columns": {
+    "1": "Target_Next_Return",
+    "2": "Target_Return_H2",
+    "3": "Target_Return_H3",
+    "4": "Target_Return_H4",
+    "5": "Target_Return_H5",
+    "6": "Target_Return_H6",
+    "7": "Target_Return_H7"
+  },
+  "target_price_columns": {
+    "1": "Target_Next_Price",
+    "2": "Target_Price_H2",
+    "3": "Target_Price_H3",
+    "4": "Target_Price_H4",
+    "5": "Target_Price_H5",
+    "6": "Target_Price_H6",
+    "7": "Target_Price_H7"
+  },
+  "target_date_columns": {
+    "1": "Target_Date",
+    "2": "Target_Date_H2",
+    "3": "Target_Date_H3",
+    "4": "Target_Date_H4",
+    "5": "Target_Date_H5",
+    "6": "Target_Date_H6",
+    "7": "Target_Date_H7"
+  },
+  "selected_alpha": {
+    "1": 10000000000.0,
+    "2": 10000000000.0,
+    "3": 10000000000.0,
+    "4": 10000000000.0,
+    "5": 10000000000.0,
+    "6": 10000000000.0,
+    "7": 10000000000.0
+  },
+  "canonical_csv_filename": "Gold_Price_Final_ModelData_External_Return_H1_H7.csv",
+  "canonical_csv_sha256": "edf1072a0f0c5c2de6de6954e1f589e7803c646c3fc57e0b5928eceaaf42606b",
+  "split_counts": {
+    "Train": 2452,
+    "Gap": 6,
+    "Evaluation": 609
+  },
+  "first_evaluation_origin_date": "2023-08-11",
+  "time_series_split": {
+    "n_splits": 5,
+    "gap_policy": "horizon minus one recorded observations"
+  },
+  "walk_forward_availability_rule": "Origin_Date < current_origin and Target_Date_Hh <= current_origin",
+  "walk_forward_type": "expanding window with fresh pipeline at every origin and horizon",
+  "tuning_data": "Train rows only",
+  "tuning_metric": "mean reconstructed-price RMSE across five folds",
+  "alpha_grid": [
+    1e-06,
+    3.162277660168379e-06,
+    1e-05,
+    3.1622776601683795e-05,
+    0.0001,
+    0.00031622776601683794,
+    0.001,
+    0.0031622776601683794,
+    0.01,
+    0.03162277660168379,
+    0.1,
+    0.31622776601683794,
+    1.0,
+    3.1622776601683795,
+    10.0,
+    31.622776601683793,
+    100.0,
+    316.22776601683796,
+    1000.0,
+    3162.2776601683795,
+    10000.0,
+    31622.776601683792,
+    100000.0,
+    316227.7660168379,
+    1000000.0,
+    3162277.6601683795,
+    10000000.0,
+    31622776.60168379,
+    100000000.0,
+    316227766.01683795,
+    1000000000.0,
+    3162277660.1683793,
+    10000000000.0
+  ],
+  "alpha_tie_break": [
+    "lowest mean CV price RMSE",
+    "lowest CV price RMSE standard deviation",
+    "larger alpha"
+  ],
+  "persistence_definition": "Predicted_Return = 0; Predicted_Price = Current_Price",
+  "price_reconstruction": "Current_Price * (1 + Predicted_Return)",
+  "coefficient_interpretation_warning": "Coefficients are conditional associations, not causal effects; correlated predictors can make signs unstable.",
+  "coefficient_intercepts": {
+    "1": {
+      "standardized_space_intercept": 0.00031630324854944923,
+      "original_unit_intercept": 0.0003163034867624288
+    },
+    "2": {
+      "standardized_space_intercept": 0.0006289655847664757,
+      "original_unit_intercept": 0.0006289659585306841
+    },
+    "3": {
+      "standardized_space_intercept": 0.0009440563459709218,
+      "original_unit_intercept": 0.0009440567382317899
+    },
+    "4": {
+      "standardized_space_intercept": 0.0012556414863345597,
+      "original_unit_intercept": 0.001255641873027271
+    },
+    "5": {
+      "standardized_space_intercept": 0.0015550101245077007,
+      "original_unit_intercept": 0.001555010332803316
+    },
+    "6": {
+      "standardized_space_intercept": 0.001851878192544249,
+      "original_unit_intercept": 0.0018518782319890536
+    },
+    "7": {
+      "standardized_space_intercept": 0.002148996011625271,
+      "original_unit_intercept": 0.002148995941635168
+    }
+  },
+  "standardized_train_condition_number": 635.3569199911617,
+  "target_scaled": false,
+  "deployment_model_excluded_from_evaluation": true,
+  "random_seed": 42,
+  "library_versions": {
+    "python": "3.13.15",
+    "pandas": "2.2.3",
+    "numpy": "2.1.3",
+    "scikit_learn": "1.6.1",
+    "matplotlib": "3.10.0",
+    "seaborn": "0.13.2",
+    "scipy": "1.16.3",
+    "joblib": "1.5.3"
+  }
+}
