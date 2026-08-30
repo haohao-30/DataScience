@@ -156,15 +156,38 @@ def apply_style() -> None:
         [data-testid="stSidebar"] [data-testid="stExpander"] summary { background:transparent !important; }
 
         /* ---------- Inputs (main area) ---------- */
-        [data-testid="stNumberInput"] [data-baseweb="input"],
-        [data-testid="stNumberInput"] input {
-            background:#ffffff !important; color:#111827 !important; -webkit-text-fill-color:#111827 !important;
-            border-color:#94a3b8 !important; opacity:1 !important;
+        [data-testid="stNumberInputContainer"] {
+            background:#f8fafc !important;
+            border:1px solid #d8e1ee !important;
+            border-radius:10px !important;
+            box-shadow:none !important;
+            outline:none !important;
+            overflow:hidden !important;
         }
-        [data-testid="stNumberInput"] input:disabled { background:#eef2f7 !important; color:#334155 !important; -webkit-text-fill-color:#334155 !important; }
-        [data-testid="stNumberInput"] button { background:#eef2f7 !important; color:#111827 !important; }
-        [data-testid="stNumberInput"] button svg { fill:#111827 !important; }
+        [data-testid="stNumberInputContainer"]::before,
+        [data-testid="stNumberInputContainer"]::after {
+            border:0 !important; box-shadow:none !important; display:none !important;
+        }
+        [data-testid="stNumberInputField"] {
+            background:#ffffff !important; color:#334155 !important; -webkit-text-fill-color:#334155 !important;
+            border:0 !important; border-radius:0 !important; box-shadow:none !important; outline:none !important;
+            opacity:1 !important;
+        }
+        [data-testid="stNumberInputField"]:disabled { background:#f4f7fb !important; color:#475569 !important; -webkit-text-fill-color:#475569 !important; }
+        [data-testid="stNumberInputContainer"] button {
+            background:#f4f7fb !important; color:#334155 !important;
+            border:0 !important; box-shadow:none !important; outline:none !important;
+        }
+        [data-testid="stNumberInputContainer"] button svg { fill:#334155 !important; }
         [data-testid="stWidgetLabel"] p { color:#0f172a !important; font-weight:700 !important; }
+
+        [data-testid="stForm"] {
+            background:#ffffff !important;
+            border:1px solid #dbe3ef !important;
+            border-radius:16px !important;
+            box-shadow:0 8px 24px rgba(15,23,42,.045) !important;
+            padding:1.25rem !important;
+        }
 
         [data-testid="stSelectbox"] [data-baseweb="select"] > div { background:#ffffff !important; color:#111827 !important; border:1px solid #94a3b8 !important; border-radius:9px !important; }
         [data-testid="stNumberInput"] [data-baseweb="input"]:focus-within,
@@ -915,13 +938,10 @@ def historical_tab(data: dict, contracts: dict, selection: str) -> None:
     canonical_row = data["canonical"].loc[data["canonical"]["Origin_Date"].eq(chosen_date)].iloc[0]
     with st.expander("Show the selected date market inputs", expanded=False):
         cols = st.columns(4)
-    
         for index, field in enumerate(VISIBLE_FIELDS):
             cols[index % 4].number_input(
                 field,
                 value=float(canonical_row[field]),
-                step=1.0,
-                format="%.2f",
                 disabled=True,
                 key=f"history_{chosen_label}_{field}",
             )
