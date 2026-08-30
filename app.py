@@ -19,6 +19,54 @@ st.set_page_config(page_title="Daily Gold Price Forecasting", page_icon="📈", 
 
 MODEL_COLORS = {"Ridge": "#2563EB", "KNN": "#F59E0B", "SVR": "#059669", "XGBoost": "#DC2626"}
 
+# The canonical modelling table ends at the 2025-12-23 origin because seven
+# future target records are required. These defaults are the actual final raw
+# Gold Price record; the lagged external values use the latest strictly earlier
+# FRED observations, matching the notebook's no-leakage alignment rule.
+LATEST_MANUAL_DATE = pd.Timestamp("2026-01-02")
+LATEST_MANUAL_OHLCV = {
+    "Current_Price": 135_793.0,
+    "Current_Open": 136_143.0,
+    "Current_High": 137_037.0,
+    "Current_Low": 135_525.0,
+    "Current_Volume": 51_877.0,
+}
+LATEST_MANUAL_EXTERNAL = {
+    "USD_Index_Return_Lag1": 0.002106383673141421,
+    "US10Y_Real_Yield_Change_Lag1": 0.030000000000000027,
+}
+
+
+def latest_dataset_manual_defaults(
+    canonical: pd.DataFrame,
+) -> tuple[dict[str, float], list[float], dict[str, float]]:
+    """Build leakage-safe defaults for the final raw record, 2026-01-02."""
+    ordered = canonical.sort_values("Origin_Date").reset_index(drop=True)
+    last = ordered.iloc[-1]
+    target_date_columns = ["Target_Date", *[f"Target_Date_H{h}" for h in range(2, 8)]]
+    target_price_columns = ["Target_Next_Price", *[f"Target_Price_H{h}" for h in range(2, 8)]]
+    future_path = sorted(
+        (
+            (pd.Timestamp(last[date_column]), float(last[price_column]))
+            for date_column, price_column in zip(target_date_columns, target_price_columns)
+        ),
+        key=lambda item: item[0],
+    )
+
+    if future_path[-1][0] != LATEST_MANUAL_DATE:
+        raise ValueError("The canonical dataset no longer ends at the expected 2026-01-02 record.")
+
+    visible = dict(LATEST_MANUAL_OHLCV)
+    visible["Price_Lag1"] = future_path[-2][1]
+    visible["Price_Lag2"] = future_path[-3][1]
+
+    # build_feature_row expects all prices before Price_Lag2. Add the known
+    # post-origin target prices through 2025-12-30 to the canonical history.
+    lag2_date = future_path[-3][0]
+    prior = ordered["Current_Price"].astype(float).tolist()
+    prior.extend(price for date, price in future_path if date < lag2_date)
+    return visible, prior, dict(LATEST_MANUAL_EXTERNAL)
+
 
 # --------------------------------------------------------------------------- #
 # Cached loaders
@@ -865,10 +913,10 @@ def historical_tab(data: dict, contracts: dict, selection: str) -> None:
     chosen_label = st.selectbox("Evaluation Origin Date (609 common dates only)", date_labels)
     chosen_date = pd.Timestamp(chosen_label)
     canonical_row = data["canonical"].loc[data["canonical"]["Origin_Date"].eq(chosen_date)].iloc[0]
-    with st.expander("Show the Origin Date market inputs", expanded=False):
+    with st.expander("Show the selected date market inputs", expanded=False):
         cols = st.columns(4)
         for index, field in enumerate(VISIBLE_FIELDS):
-            cols[index % 4].number_input(field, value=float(canonical_row[field]), disabled=True, key=f"history_{field}")
+            cols[index % 4].metric(field, f"{float(canonical_row[field]):,.6f}")
 
     if st.button("Predict from saved Evaluation evidence", type="primary", key="history_predict"):
         detailed_models = selected_models(selection, MODEL_NAMES)
@@ -903,7 +951,8 @@ def historical_tab(data: dict, contracts: dict, selection: str) -> None:
 
 def manual_tab(data: dict, bundles: dict, contracts: dict, selection: str) -> None:
     page_title("Manual Input Forecast", "Enter current market values to generate a fresh H1–H7 forecast from the saved deployment pipelines.")
-    defaults, prior, external = latest_manual_defaults(data["canonical"])
+    defaults, prior, external = latest_dataset_manual_defaults(data["canonical"])
+    st.caption(f"Default values: latest dataset record — {LATEST_MANUAL_DATE:%Y-%m-%d}")
     with st.form("manual_form"):
         columns = st.columns(4)
         entered = {}
