@@ -1122,7 +1122,7 @@ def comparison_section(data: dict, best_model: str, bundles: dict) -> None:
 
     # Always provide a seven-horizon extension using the latest stored input
     # values. A submitted Manual Input forecast replaces this automatic default.
-    defaults, prior, external = latest_manual_defaults(data["canonical"])
+    defaults, prior, external = latest_dataset_manual_defaults(data["canonical"])
     latest_feature_row = build_feature_row(defaults, prior, external, PREDICTORS)
     automatic_forecasts = predict_manual(latest_feature_row, bundles, MODEL_NAMES)
     forecast_origin_date = max(
